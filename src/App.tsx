@@ -3,7 +3,7 @@ import UserDetails from './components/UserDetails';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App container mx-auto p-4">
       <UserDetails />
     </div>
   );
