@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { fetchProducts } from '../api';
 import { FaSearch } from 'react-icons/fa';
+import { CartContext } from '../context/CartContext';
 
 interface Product {
   id: number;
@@ -14,6 +15,7 @@ const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const cartContext = useContext(CartContext);
 
   useEffect(() => {
     fetchProducts()
@@ -28,10 +30,15 @@ const ProductsPage = () => {
     setFilteredProducts(results);
   }, [searchTerm, products]);
 
+  const handleAddToCart = (product: Product) => {
+    if (cartContext) {
+      cartContext.addToCart({ ...product, quantity: 1 });
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
-      
-      <div className="relative mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1.25/4">
+      <div className="relative mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1.5/4">
         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
           <FaSearch />
         </span>
@@ -57,7 +64,10 @@ const ProductsPage = () => {
             
             <div className="flex justify-between items-center mt-2">
               <p className="text-gray-700">${product.price}</p>
-              <button className="bg-blue-500 text-white text-l px-2 py-1">
+              <button
+                onClick={() => handleAddToCart(product)}
+                className="bg-blue-500 text-white text-l px-2 py-1 rounded-lg"
+              >
                 Add to Cart
               </button>
             </div>
