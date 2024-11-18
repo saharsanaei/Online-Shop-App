@@ -9,6 +9,7 @@ interface Product {
   price: number;
   category: string;
   image: string;
+  description: string;
 }
 
 const ProductsPage = () => {
@@ -64,7 +65,7 @@ const ProductsPage = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="border p-2 w-full rounded-lg bg-white" 
+            className="border p-2 w-full rounded-lg bg-white"
           >
             <option value="">All Categories</option>
             {categories.map((category) => (
@@ -86,7 +87,8 @@ const ProductsPage = () => {
               className="w-full h-48 object-cover mb-2 rounded"
             />
             <h2 className="font-bold text-lg truncate">{product.title}</h2>
-            
+            <p className="text-gray-600 mb-2">{product.description}</p>
+
             <div className="flex justify-between items-center mt-2">
               <p className="text-gray-700">${product.price}</p>
               <button

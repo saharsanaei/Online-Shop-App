@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { fetchUser } from '../api';
 import { FaUserAlt } from 'react-icons/fa';
 import { FaShoppingCart } from 'react-icons/fa';
-import { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 interface User {
   id: number;
@@ -34,10 +34,10 @@ const UserDetails = () => {
         <p className="text-gray-700">Hi, {user.name.firstname}</p>
         {/* <p className="text-gray-700">Email: {user.email}</p> */}
       </div>
-      <div className="flex items-center">
+      <Link to="/cart" className="flex items-center">
         <FaShoppingCart className="text-gray-500 mr-2" size={24} />
-        <span className="text-gray-700">{totalItems} Cart</span>
-      </div>
+        <span className="text-gray-700 font-bold">{totalItems} Cart</span>
+      </Link>
     </div>
   );
 };
