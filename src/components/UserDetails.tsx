@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUser } from '../api';
 import { FaUserAlt } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
 
 interface User {
   id: number;
@@ -13,6 +16,7 @@ interface User {
 
 const UserDetails = () => {
   const [user, setUser] = useState<User | null>(null);
+  const cartContext = useContext(CartContext);
 
   useEffect(() => {
     fetchUser().then((response) => setUser(response.data));
@@ -20,13 +24,19 @@ const UserDetails = () => {
 
   if (!user) return <div>Loading user details...</div>;
 
+  const totalItems = cartContext?.cart.reduce((total, item) => total + item.quantity, 0) || 0;
+
   return (
-    <div className="border p-4 rounded-lg bg-gray-200 mb-4 flex items-center">
-      <FaUserAlt className="text-gray-500 mr-4" size={24} />
-      <div>
+    <div className="border p-4 rounded-lg bg-gray-200 mb-4 flex items-center justify-between">
+      <div className="flex items-center">
+        <FaUserAlt className="text-gray-500 mr-4" size={24} />
         {/* <h2 className="text-xl font-bold">User Details</h2> */}
         <p className="text-gray-700">Hi, {user.name.firstname}</p>
         {/* <p className="text-gray-700">Email: {user.email}</p> */}
+      </div>
+      <div className="flex items-center">
+        <FaShoppingCart className="text-gray-500 mr-2" size={24} />
+        <span className="text-gray-700">{totalItems} Cart</span>
       </div>
     </div>
   );
